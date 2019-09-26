@@ -13,7 +13,10 @@ long map(long x, long in_min, long in_max, long out_min, long out_max) {
 //Turning
 //4 wheels
 task driveRightWheel() {
-	float s = vexRT[Ch2]/vexRT[Ch1];
+	float s;
+	if(vexRT[Ch1] != 0) {
+		s = vexRT[Ch2]/vexRT[Ch1];
+	}
 	float angle;//, turning;
 	if(vexRT[Ch2] > 0) {
 		angle = map((atan(s)*(2/PI)),-1,1,0,180);
@@ -45,7 +48,10 @@ task driveRightWheel() {
 }
 
 task driveLeftWheel() {
-	float s = vexRT[Ch2]/vexRT[Ch1];
+	float s;
+	if(vexRT[Ch1] != 0) {
+		s = vexRT[Ch2]/vexRT[Ch1];
+	}
 	float angle;//, turning;
 	if(vexRT[Ch2] > 0) {
 		angle = map((atan(s)*(2/PI)),-1,1,1,179);
