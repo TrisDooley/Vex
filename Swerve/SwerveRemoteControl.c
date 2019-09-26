@@ -9,20 +9,29 @@
 long map(long x, long in_min, long in_max, long out_min, long out_max) {
 	return((x-in_min)*(out_max-out_min)/(in_max-in_min)+out_min);
 }
-
+//TODO
+//Turning
+//4 wheels
 task driveRightWheel() {
 	float s = vexRT[Ch2]/vexRT[Ch1];
-	float angle = map((atan(s)*(2/PI)),-1,1,-127,127);
+	float angle;//, turning;
+	if(vexRT[Ch2] > 0) {
+		angle = map((atan(s)*(2/PI)),-1,1,0,180);
+		//turning = map(vexRT[Ch4],-127,127,-1,1);
+	} else if(vexRT[Ch2] < 0) {
+		angle = map((atan(s)*(2/PI)),-1,1,359,181);
+		//turning = map(vexRT[Ch4],-127,127,-1,1);
+	}
 	float speed = sqrt((vexRT[Ch1]*vexRT[Ch1])+(vexRT[Ch2]*vexRT[Ch2]));
-	//This has to be bidder than 32, no more than 127
+	//This has to be bigger than 32, no more than 127
 	int turningSpeed = 50;
-	//tolerance should be kept realyyyyyyyy low below 4
+	//tolerance should be kept really low below 4
 	int tolerance = 1;
 	//Motor go zoom
 	motor[rightPower] = speed;
 	//What is the current angle (0-359)
 	int offAngle = SensorValue[rightEncoder]%360;
-	//Do a thing untill it hits
+	//Turn until it gets where it's supposed to be
 	while(offAngle < angle + tolerance && offAngle > angle - tolerance) {
 	//What is the current angle (0-359)
 		offAngle = SensorValue[rightEncoder]%360;
@@ -37,17 +46,24 @@ task driveRightWheel() {
 
 task driveLeftWheel() {
 	float s = vexRT[Ch2]/vexRT[Ch1];
-	float angle = map((atan(s)*(2/PI)),-1,1,-127,127);
+	float angle;//, turning;
+	if(vexRT[Ch2] > 0) {
+		angle = map((atan(s)*(2/PI)),-1,1,1,179);
+		//turning = map(vexRT[Ch4],-127,127,-1,1);
+	} else if(vexRT[Ch2] < 0) {
+		angle = map((atan(s)*(2/PI)),-1,1,359,181);
+		//turning = map(vexRT[Ch4],-127,127,-1,1);
+	}
 	float speed = sqrt((vexRT[Ch1]*vexRT[Ch1])+(vexRT[Ch2]*vexRT[Ch2]));
-	//This has to be bidder than 32, no more than 127
+	//This has to be bigger than 32, no more than 127
 	int turningSpeed = 50;
-	//tolerance should be kept realyyyyyyyy low below 4
+	//tolerance should be kept really low below 4
 	int tolerance = 1;
 	//Motor go zoom
 	motor[leftPower] = speed;
 	//What is the current angle (0-359)
 	int offAngle = SensorValue[leftEncoder]%360;
-	//Do a thing untill it hits
+	//Turn until it is close to where it's supposed to be
 	while(offAngle < angle + tolerance && offAngle > angle - tolerance) {
 	//What is the current angle (0-359)
 		offAngle = SensorValue[leftEncoder]%360;
